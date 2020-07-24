@@ -405,7 +405,7 @@ module GoogleDrive
       api_spreadsheet =
         @session.sheets_service.get_spreadsheet(
           spreadsheet.id,
-          ranges: "'%s'" % @title,
+          ranges: "'%s'" % @title.gsub("'"){"''"},
           fields:
             'sheets(properties,data.rowData.values' \
             '(formattedValue,userEnteredValue,effectiveValue))'
@@ -701,7 +701,7 @@ module GoogleDrive
       response =
           @session.sheets_service.get_spreadsheet(
               spreadsheet.id,
-              ranges: "'%s'" % @remote_title,
+              ranges: "'%s'" % @remote_title.gsub("'"){"''"},
               fields: 'sheets.data.rowData.values(formattedValue,userEnteredValue,effectiveValue)'
           )
       update_cells_from_api_sheet(response.sheets[0])
